@@ -45,7 +45,7 @@ def get_last_processed_date(sharepoint_path: str) -> date | None:
             logger.warning(f"Data inválida no nome do arquivo: {nome}")
             continue
 
-        # 🔄 Se não for do mês atual → mover para Histórico
+        # Se não for do mês atual → mover para Histórico
         if data_arquivo.year != hoje.year or data_arquivo.month != hoje.month:
             logger.info(
                 f"Movendo para histórico: {nome} ({data_arquivo})"
@@ -67,7 +67,7 @@ def get_last_processed_date(sharepoint_path: str) -> date | None:
             mr.raise_for_status()
             continue
 
-        # ✔️ Arquivo válido do mês atual
+        # Arquivo válido do mês atual
         datas_validas.append(data_arquivo)
 
     return max(datas_validas) if datas_validas else None

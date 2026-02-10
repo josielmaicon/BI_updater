@@ -37,7 +37,7 @@ def upload_sharepoint(file_path: str, sharepoint_path: str, access_token: str, s
     try:
         logger.info(f"Iniciando upload de arquivo grande para SharePoint: {path.name}")
         
-        # 1️⃣ Criar a sessão de upload
+        # Criar a sessão de upload
         url_session = f"https://graph.microsoft.com/v1.0/sites/{site_id}/drive/root:/{sharepoint_path}/{path.name}:/createUploadSession"
         headers = {"Authorization": f"Bearer {access_token}"}
         data = {"item": {"@microsoft.graph.conflictBehavior": "replace"}}
@@ -46,7 +46,7 @@ def upload_sharepoint(file_path: str, sharepoint_path: str, access_token: str, s
         upload_url = resp.json()["uploadUrl"]
         logger.debug(f"Upload URL: {upload_url}")
 
-        # 2️⃣ Enviar em chunks
+        # Enviar em chunks
         file_size = path.stat().st_size
         with open(path, "rb") as f:
             start = 0

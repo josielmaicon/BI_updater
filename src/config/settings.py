@@ -23,10 +23,10 @@ POWER_BI = {
     "client_id": os.getenv("CLIENT_ID"),
     "client_secret": os.getenv("CLIENT_SECRET"),
     "tenant_id": os.getenv("TENANT_ID"),
-    "workspace_id": "SEU_WORKSPACE_ID_AQUI",
+    "workspace_id": "bde55dfd-8938-41ba-a8fb-d852eab61ee0",
 
     "datasets": {
-        "bi_documentos": "DATASET_ID_DOCUMENTOS",
+        "bi_documentos": "5fcbf785-f997-465a-b061-2d518352130f",
         "bi_paradas": "DATASET_ID_PARADAS",
         "bi_rotas": "DATASET_ID_ROTAS"
     }

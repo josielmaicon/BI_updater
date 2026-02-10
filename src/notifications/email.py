@@ -39,8 +39,8 @@ def enviar_email(
     try:
         resp = requests.post(url, headers=headers, json=payload, timeout=10)
         resp.raise_for_status()
-        logger.info("📧 E-mail de notificação enviado com sucesso")
+        logger.info("E-mail de notificação enviado com sucesso")
 
     except Exception as e:
-        # ⚠️ regra de ouro: notificação NUNCA quebra pipeline
+        # regra de ouro: notificação NUNCA quebra pipeline
         logger.error(f"Falha ao enviar e-mail: {e}")
