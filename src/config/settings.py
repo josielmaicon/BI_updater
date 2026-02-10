@@ -1,11 +1,14 @@
 from pathlib import Path
 import tempfile
 import os
+from dotenv import load_dotenv
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+load_dotenv(BASE_DIR / ".env")
 TEMP_DIR = BASE_DIR / "workdir"
 TEMP_DIR.mkdir(exist_ok=True)
 
+EMAIL_REMETENTE = os.getenv("EMAIL_REMETENTE")
 PROJECT_NAME = "Pipeline Comprovei"
 
 SHAREPOINT = {

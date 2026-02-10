@@ -16,6 +16,7 @@ from steps.classifier import classificar_arquivos
 from steps.sharepoint import upload_sharepoint, _get_access_token
 from steps.sharepoint_reader import get_last_processed_date
 from utils.logger import logger
+from notifications.email import enviar_email
 
 TIPOS = ["paradas", "documentos", "rotas"]
 CHUNK_SIZE = 5 * 1024 * 1024  # 5MB
@@ -159,9 +160,28 @@ def main():
 
     # ✅ Resumo de erros no final
     if errors:
-        msg = "⚠️ Erros na pipeline:\n" + "\n".join([f"{e['tipo']} {e['data']}: {e['error']}" for e in errors])
-        logger.warning(msg)
-        # enviar_whatsapp(msg)  # Aqui você chama sua função de notificação
+        corpo = (
+            "⚠️ Erros detectados na pipeline Comprovei\n\n" +
+            "\n".join(
+                f"- Tipo: {e['tipo']} | Data: {e['data']}\n  Erro: {e['error']}"
+                for e in errors
+            )
+        )
+
+        enviar_email(
+            access_token=access_token,
+            assunto="⚠️ Falha na pipeline Comprovei",
+            corpo=corpo,
+            destinatario="josiel.maicon@translogtransportes.com.br"
+        )
+
+    else:
+        enviar_email(
+            access_token=access_token,
+            assunto="✅ Pipeline Comprovei executada com sucesso",
+            corpo="Todos os tipos foram processados sem erros.",
+            destinatario="josiel.maicon@translogtransportes.com.br"
+        )
 
     logger.info("Pipeline encerrado para todos os tipos.")
 
