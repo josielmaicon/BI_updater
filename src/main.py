@@ -166,19 +166,36 @@ def main():
         limpar_temp_dir()
         logger.debug(f"TEMP_DIR limpo após processar {tipo}")
 
-    results = atualizar_todos_datasets()
-    for r in results:
-        if r.success:
-            logger.debug(f"[OK] {r.data['dataset_id']} refresh iniciado")
-        else:
-            logger.debug(f"[ERRO] {r.message}")
+    # --- Atualização dos datasets Power BI ---
+    try:
+        results = atualizar_todos_datasets()
+        for r in results:
+            if r.success:
+                logger.debug(f"[OK] {r.data['dataset_id']} refresh iniciado")
+            else:
+                logger.error(f"[ERRO POWER BI] {r.message}")
+                errors.append({
+                    "tipo": "power_bi",
+                    "data": None,
+                    "error": r.message
+                })
+    except Exception as e:
+        logger.exception("Erro inesperado ao atualizar datasets do Power BI")
+        errors.append({
+            "tipo": "power_bi",
+            "data": None,
+            "error": str(e)
+        })
 
-    # Resumo de erros no final
+
+    # --- Resumo final + e-mail ---
     if errors:
         corpo = (
             "Erros detectados na pipeline Comprovei\n\n" +
             "\n".join(
-                f"- Tipo: {e['tipo']} | Data: {e['data']}\n  Erro: {e['error']}"
+                f"- Tipo: {e['tipo']}"
+                + (f" | Data: {e['data']}" if e["data"] else "")
+                + f"\n  Erro: {e['error']}"
                 for e in errors
             )
         )
@@ -189,16 +206,16 @@ def main():
             corpo=corpo,
             destinatario="josiel.maicon@translogtransportes.com.br"
         )
-
     else:
         enviar_email(
             access_token=access_token,
-            assunto="Pipeline Comprovei executada com sucesso",
-            corpo="Todos os tipos foram processados sem erros.",
+            assunto="Atualização Monitorada - Indicadores Operacionais",
+            corpo="Todos os tipos foram processados e os datasets do Power BI foram atualizados com sucesso.",
             destinatario="josiel.maicon@translogtransportes.com.br"
         )
 
     logger.info("Pipeline encerrado para todos os tipos.")
+
 
 
 if __name__ == "__main__":

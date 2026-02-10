@@ -60,7 +60,7 @@ def atualizar_todos_datasets() -> list[StepResult]:
             ))
         return results
 
-    group_id = POWER_BI["group_id"]
+    group_id = POWER_BI["workspace_id"]
     for key, dataset_id in POWER_BI["datasets"].items():
         result = atualizar_dataset(token, group_id, dataset_id)
         results.append(result)
