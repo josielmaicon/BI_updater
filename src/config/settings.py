@@ -26,8 +26,8 @@ POWER_BI = {
     "workspace_id": "bde55dfd-8938-41ba-a8fb-d852eab61ee0",
 
     "datasets": {
-        "bi_documentos": "5fcbf785-f997-465a-b061-2d518352130f",
-        "bi_paradas": "DATASET_ID_PARADAS",
-        "bi_rotas": "DATASET_ID_ROTAS"
+        "bi_documentos": "BI_DOCUMENTOS",
+        "bi_paradas": "96bb3219-5b45-4be5-94d7-d392d19e5121",
+        "bi_rotas": "5fcbf785-f997-465a-b061-2d518352130f"
     }
 }
